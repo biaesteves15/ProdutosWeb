@@ -1,1 +1,25 @@
-<p>dashboard works!</p>
+<h4>Dashboard</h4>
+
+<p>Seja bem vindo ao sistema de controle de produtos.</p>
+
+<br/>
+
+<div class="row">
+
+    <div class="col">
+        <div [chart]="graficoStatus()"></div>
+    </div>
+
+    <div class="col">
+        <div [chart]="graficoTipo()"></div>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col">
+        <div [chart]="graficoCategoria()"></div>
+    </div>
+
+</div>

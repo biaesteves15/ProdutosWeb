@@ -1,1 +1,60 @@
-<p>cadastrar-produtos works!</p>
+<h4>Cadastro de produtos</h4>
+<p>Preencha os campos para incluir um produto.</p>
+<hr/>
+
+@if (mensagemSucesso()) {
+    <div class="alert alert-success mt-3" role="alert">
+        ✓ {{ mensagemSucesso() }}
+    </div>
+}
+@if (mensagemErro()) {
+    <div class="alert alert-danger mt-3" role="alert">
+        ✕ {{ mensagemErro() }}
+    </div>
+}
+<form [formGroup]="formulario" (ngSubmit)="cadastrar()">
+
+    <div class="mb-3">
+        <label>Nome do produto:</label>
+        <input type="text" class="form-control" formControlName="nome"/>
+    </div>
+
+    <div class="mb-3">
+        <label>Preço:</label>
+        <input type="text" class="form-control" formControlName="preco"/>
+    </div>
+
+    <div class="mb-3">
+        <label>Quantidade:</label>
+        <input type="text" class="form-control" formControlName="quantidade"/>
+    </div>
+
+    <div class="mb-3">
+        <label>Tipo:</label>
+        <select class="form-select" formControlName="tipo">
+            <option value="">Escolha uma opção</option>
+            <option value="1">Físico</option>
+            <option value="2">Digital</option>
+            <option value="3">Serviço</option>
+        </select>
+    </div>
+  
+    <div class="mb-3">
+        <label>Categoria:</label>
+        <select class="form-select" formControlName="categoria_id">
+            <option value="">Escolha uma opção</option>
+
+            @for (categoria of categorias(); track categoria.id) {
+                <option [value]="categoria.id">
+                    {{ categoria.nome }}
+                </option>
+            }
+        </select>
+    </div>
+   
+    <div class="mb-3">
+        <input type="submit" class="btn btn-success shadow" 
+            value="Realizar cadastro"/>
+    </div>
+
+</form>

@@ -1,0 +1,6 @@
+:host ::ng-deep [chart] {
+    background-color: white !important;
+}
+:host ::ng-deep canvas {
+    background-color: white !important;
+}
