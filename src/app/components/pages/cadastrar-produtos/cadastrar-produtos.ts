@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
   imports: [
@@ -14,6 +15,8 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
   templateUrl: './cadastrar-produtos.html',
 })
 export class CadastrarProdutos {
+  //atributo para armazenar o endpoint da API
+  private apiUrl = environment.apiUrl;
 
   //injeção de dependência
   private http = inject(HttpClient);
@@ -24,19 +27,19 @@ export class CadastrarProdutos {
   mensagemSucesso = signal('');
   mensagemErro = signal('');
 
-  //estrutura do formulário
+   //estrutura do formulário
   formulario = new FormGroup({
-    nome : new FormControl(''),
-    preco : new FormControl(''),
-    quantidade : new FormControl(''),
-    tipo : new FormControl(''),
-    categoria_id : new FormControl('')
+    nome : new FormControl('', [Validators.required]),
+    preco : new FormControl('', [Validators.required]),
+    quantidade : new FormControl('', [Validators.required]),
+    tipo : new FormControl('', [Validators.required]),
+    categoria_id : new FormControl('', [Validators.required])
   });
 
   //Método executado quando o componente é inicializado
   ngOnInit() {
     //Fazendo uma requisição para a API
-    this.http.get('http://localhost:5097/api/v1/categorias')
+    this.http.get(`${this.apiUrl}/categorias`)
       .subscribe((data) => {
         //guardar os dados obtidos na variavel 'categorias' (signal)
         this.categorias.set(data as any[]);
@@ -49,7 +52,7 @@ export class CadastrarProdutos {
   this.mensagemSucesso.set('');
   this.mensagemErro.set('');
 
-  this.http.post('http://localhost:5097/api/v1/produtos', this.formulario.value)
+  this.http.post(`${this.apiUrl}/produtos`, this.formulario.value)
     .subscribe({
       next: (data: any) => {
         this.mensagemSucesso.set('Produto cadastrado com sucesso!');

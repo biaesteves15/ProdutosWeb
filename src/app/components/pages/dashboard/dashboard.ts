@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { Chart, ChartModule } from 'angular-highcharts';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   imports: [
@@ -13,6 +14,10 @@ import { Chart, ChartModule } from 'angular-highcharts';
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
+
+  //Atributo para armazenar o endpoint da API
+  private apiUrl = environment.apiUrl; 
+
 
   // Injeção de dependência
   private http = inject(HttpClient);
@@ -29,7 +34,7 @@ export class Dashboard {
     // =========================================================
 
     this.http.get<any[]>(
-      'http://localhost:5097/api/v1/dashboard/produtos-por-status'
+      `${this.apiUrl}/dashboard/produtos-por-status`
     )
     .subscribe((dados) => {
 
@@ -147,7 +152,7 @@ export class Dashboard {
     // =========================================================
 
     this.http.get<any[]>(
-      'http://localhost:5097/api/v1/dashboard/produtos-por-tipo'
+      `${this.apiUrl}/dashboard/produtos-por-tipo`
     )
     .subscribe((dados) => {
 
@@ -272,7 +277,7 @@ export class Dashboard {
     // =========================================================
 
     this.http.get<any[]>(
-      'http://localhost:5097/api/v1/dashboard/produtos-por-categoria'
+      `${this.apiUrl}/dashboard/produtos-por-categoria`
     )
     .subscribe((dados) => {
 

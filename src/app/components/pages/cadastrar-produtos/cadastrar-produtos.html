@@ -2,16 +2,6 @@
 <p>Preencha os campos para incluir um produto.</p>
 <hr/>
 
-@if (mensagemSucesso()) {
-    <div class="alert alert-success mt-3" role="alert">
-        ✓ {{ mensagemSucesso() }}
-    </div>
-}
-@if (mensagemErro()) {
-    <div class="alert alert-danger mt-3" role="alert">
-        ✕ {{ mensagemErro() }}
-    </div>
-}
 <form [formGroup]="formulario" (ngSubmit)="cadastrar()">
 
     <div class="mb-3">
@@ -38,22 +28,21 @@
             <option value="3">Serviço</option>
         </select>
     </div>
-  
+
     <div class="mb-3">
         <label>Categoria:</label>
         <select class="form-select" formControlName="categoria_id">
             <option value="">Escolha uma opção</option>
-
-            @for (categoria of categorias(); track categoria.id) {
-                <option [value]="categoria.id">
-                    {{ categoria.nome }}
+            @for(c of categorias(); track c) {
+                <option value="{{ c.id }}">
+                    {{ c.nome }}
                 </option>
             }
         </select>
     </div>
-   
+
     <div class="mb-3">
-        <input type="submit" class="btn btn-success shadow" 
+        <input type="submit" class="btn btn-success shadow" [disabled]="formulario.invalid"
             value="Realizar cadastro"/>
     </div>
 

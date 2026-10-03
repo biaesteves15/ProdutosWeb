@@ -1,0 +1,89 @@
+<h4>Edição de produtos</h4>
+
+<p>Preencha os campos para alterar um produto.</p>
+
+<hr />
+
+@if(mensagemSucesso) {
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+        {{ mensagemSucesso }}
+
+        <button
+            type="button"
+            class="btn-close"
+            aria-label="Fechar"
+            (click)="fecharMensagem()">
+        </button>
+
+    </div>
+}
+
+<form [formGroup]="formulario" (ngSubmit)="atualizar()">
+
+    <div class="mb-3">
+
+        <label>Nome do produto:</label>
+
+        <input type="text" class="form-control" formControlName="nome" />
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Preço:</label>
+
+        <input type="text" class="form-control" formControlName="preco" />
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Quantidade:</label>
+
+        <input type="text" class="form-control" formControlName="quantidade" />
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Tipo:</label>
+
+        <select class="form-select" formControlName="tipo">
+
+            <option value="">Escolha uma opção</option>
+            <option value="1">Físico</option>
+            <option value="2">Digital</option>
+            <option value="3">Serviço</option>
+
+        </select>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Categoria:</label>
+
+        <select class="form-select" formControlName="categoria_id">
+
+            <option value="">Escolha uma opção</option>
+
+            @for(c of categorias(); track c) {
+
+            <option value="{{ c.id }}">
+                {{ c.nome }}
+            </option>
+
+            }
+
+        </select>
+
+    </div>
+
+    <div class="mb-3">
+
+        <input type="submit" class="btn btn-primary shadow" [disabled]="formulario.invalid" value="Salvar alterações" />
+
+    </div>
+
+</form>

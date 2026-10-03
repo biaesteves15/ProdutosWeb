@@ -1,1 +1,157 @@
-<p>consultar-produtos works!</p>
+<h4>Consulta de produtos</h4>
+
+<p>Preencha o nome do produto desejado para realizar a consulta.</p>
+
+<form [formGroup]="formulario" (ngSubmit)="consultar()">
+
+    <div class="row mb-3">
+
+        <div class="col-md-6">
+
+            <input type="text" class="form-control" formControlName="nome"
+                placeholder="Digite o nome do produto desejado" />
+
+            <div class="text-danger mt-1" *ngIf="formulario.get('nome')?.hasError('minlength')">
+
+                Digite pelo menos 3 caracteres.
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <input type="submit" class="btn btn-success shadow" [disabled]="formulario.invalid"
+                value="Realizar pesquisa" />
+
+        </div>
+
+    </div>
+
+</form>
+
+<!-- Mensagem de sucesso -->
+
+<div *ngIf="mensagemSucesso" class="alert alert-success alert-dismissible fade show">
+
+    <strong>Sucesso!</strong> {{ mensagemSucesso }}
+
+    <button type="button" class="btn-close" aria-label="Fechar" (click)="fecharMensagem()">
+    </button>
+
+</div>
+
+<!-- Confirmação de exclusão -->
+
+<div *ngIf="produtoSelecionado" class="alert alert-warning">
+
+    <strong>Deseja realmente excluir o produto selecionado?</strong>
+
+    <div class="mt-2">
+
+        <button type="button" class="btn btn-danger btn-sm me-2" (click)="confirmarExclusao()">
+
+            Sim, excluir
+
+        </button>
+
+        <button type="button" class="btn btn-secondary btn-sm" (click)="cancelarExclusao()">
+
+            Cancelar
+
+        </button>
+
+    </div>
+
+</div>
+
+<hr />
+
+<table class="table table-sm table-hover">
+
+    <thead>
+        <tr>
+            <th>Nome do produto</th>
+            <th>Preço</th>
+            <th>Quantidade</th>
+            <th>Tipo</th>
+            <th>Categoria</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @for(p of produtos(); track p) {
+
+        <tr>
+
+            <td>{{ p.nome | titlecase }}</td>
+
+            <td>{{ p.preco | currency : 'R$ ' }}</td>
+
+            <td>{{ p.quantidade }}</td>
+
+            <td>
+
+                @if(p.tipo == 1) {
+
+                <span class="badge bg-primary">
+                    Físico
+                </span>
+
+                }
+                @else if(p.tipo == 2) {
+
+                <span class="badge bg-success">
+                    Digital
+                </span>
+
+                }
+                @else if(p.tipo == 3) {
+
+                <span class="badge bg-warning">
+                    Serviço
+                </span>
+
+                }
+
+            </td>
+
+            <td>{{ p.categoria.nome }}</td>
+
+            <td>
+
+                <button (click)="editar(p.id)" class="btn btn-sm btn-outline-primary me-1">
+
+                    Editar
+
+                </button>
+
+                <button (click)="excluir(p.id)" class="btn btn-sm btn-outline-danger">
+
+                    Excluir
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        }
+
+    </tbody>
+
+    <tfoot>
+
+        <tr>
+
+            <td colspan="6">
+                Quantidade de produtos encontrados: {{ produtos().length }}
+            </td>
+
+        </tr>
+
+    </tfoot>
+
+</table>
